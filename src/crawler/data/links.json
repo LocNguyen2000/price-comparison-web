@@ -1,0 +1,33 @@
+[
+    {
+        "url" : "https://tiki.vn/laptop/c8095",
+        "params": {
+            "path": "?page=",
+            "startPage": 1,
+            "stopPage": 3
+        },
+        "selector": "a.product-item[href]",
+        "shop": "tiki"
+    },
+    {
+        "url": "https://www.anphatpc.com.vn/may-tinh-xach-tay-laptop.html",
+        "params": {
+            "path": "?page=",
+            "startPage": 1,
+            "stopPage": 10
+        },
+        "selector": "div.p-list-container > div.p-item > a[href]",
+        "shop": "anphat" 
+    },
+    {
+        "url": "https://www.hanoicomputer.vn/laptop",
+        "params": {
+            "path": "/",
+            "startPage": 1,
+            "stopPage": 10
+        },
+        "selector": "div.cate-list-prod > div.p-component.item > div.p-img > a[href]",
+        "shop": "hanoicomputer" 
+    }
+
+]

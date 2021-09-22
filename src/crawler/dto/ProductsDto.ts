@@ -1,6 +1,8 @@
 export interface ProductsDto {
-    shop: string
     itemid: number
+    shop: string
     name: string
     price: number
+    description: string
+    image: string,
 }

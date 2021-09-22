@@ -1,3 +1,5 @@
+// won't be using this
+
 import * as es from 'elasticsearch'
 import { ProductsDto } from '../crawler/dto/ProductsDto'
 
