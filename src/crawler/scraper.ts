@@ -5,7 +5,7 @@ import { CrawlDetailDto } from './dto/CrawlDetailDto'
 import { saveFile } from './utils/index'
 
 let urls: CrawlDetailDto[] = [];
-let DetailProductsUrls: string[] = [];
+let DetailProductsUrls: any[] = [];
 
 (async() => {
     console.log('Getting Shop URLs');
@@ -23,8 +23,7 @@ let DetailProductsUrls: string[] = [];
                 selector
             }
             urls.push(url);
-            console.log('Done');
-            
+            console.log(url);
         }
     }
 })();
@@ -32,34 +31,48 @@ let DetailProductsUrls: string[] = [];
 (async () => {
     console.log('-----------');
     console.log('Getting Detail Products URLs');
-
+    
     try {
         const browser = await puppeteer.launch({ headless: false });
         
         const page = await browser.newPage();
         page.setDefaultNavigationTimeout(0);
         
+        await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36');
+            
         for (let url of urls){
             const { path, selector, shop } = url
 
-            console.log(`Scraping from ${shop}`);
+            console.log(`Scraping from ${shop}: ${path}`);
             
             await page.goto( path, { waitUntil: "networkidle0" });
             await page.setViewport({
                 width: 1560,
                 height: 1000
             });
-            await page.evaluate( ( selector, DetailProductsUrls ) => {                
-                const selectorProduct = selector
+            const urls = await page.evaluate( ( selector ) => {      
+                let productsUrls: any[] = [];
+                
+                const selectorProduct = selector;
                 let htmls = document.querySelectorAll(selectorProduct);
 
                 htmls.forEach((html: any) => {
-                    if (html.href) DetailProductsUrls.push(html.href)
+                    if (html.href) productsUrls.push(html.href)
                     console.log(html.href);
                 })
-            }, selector, DetailProductsUrls )
+                return productsUrls;
+            }, selector )
+
+            urls.map( ( url: string) => {
+                DetailProductsUrls.push(url)
+            })
+
+            console.log('--------------');
+            console.log(DetailProductsUrls);
+            
+
+            await saveFile(DetailProductsUrls, 'detailUrl.json')
         }
-        await saveFile(DetailProductsUrls, 'detailUrl.txt')
 
         await browser.close();
         

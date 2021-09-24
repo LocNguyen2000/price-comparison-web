@@ -10,6 +10,16 @@
         "shop": "tiki"
     },
     {
+        "url": "https://www.sendo.vn/laptop",
+        "params": {
+            "path": "/?page=",
+            "startPage": 1,
+            "stopPage": 5
+        },
+        "selector": "a[href].item_3x07",
+        "shop": "sendo"
+    },
+    {
         "url": "https://www.anphatpc.com.vn/may-tinh-xach-tay-laptop.html",
         "params": {
             "path": "?page=",
