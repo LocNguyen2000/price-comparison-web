@@ -4,7 +4,7 @@
         "params": {
             "path": "?page=",
             "startPage": 1,
-            "stopPage": 3,
+            "stopPage": 2,
             "endSlash": false
         },
         "selector": "a.product-item[href]",

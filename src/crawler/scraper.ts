@@ -1,16 +1,17 @@
 // Scraper is used to crawl list of products in each shop
 
-import puppeteer, { Browser } from 'puppeteer'
+import puppeteer from 'puppeteer'
 
+import { logger } from '../info/logger'
 import datas from './data/links.json'
-import { CrawlDetailDto } from './dto/CrawlDetailDto'
+import { CrawlDetailDto } from './dto/crawlDetailDto'
 import { saveFile } from './utils/index'
 
 let urls: CrawlDetailDto[] = []
 let DetailProductsUrls: any[] = []
 
 ;(async () => {
-    console.log('Getting Shop URLs')
+    logger.info('Getting Shop URLs')
 
     for (let data of datas) {
         const { selector, shop } = data
@@ -21,8 +22,7 @@ let DetailProductsUrls: any[] = []
 
             if (endSlash) pathWithParam += '/'
 
-            console.log(pathWithParam);
-            
+            logger.info(pathWithParam)
             i++
             let url: CrawlDetailDto = {
                 path: pathWithParam,
@@ -31,15 +31,14 @@ let DetailProductsUrls: any[] = []
             }
             urls.push(url)
         }
-    }    
+    }
 })()
-
 ;(async () => {
-    console.log('-----------')
-    console.log('Getting Detail Products URLs')
+    logger.info('-----------')
+    logger.info('Getting Detail Products URLs')
 
     try {
-        const browser = await puppeteer.launch({ headless: false })
+        const browser = await puppeteer.launch({ headless: true })
 
         const page = await browser.newPage()
         page.setDefaultNavigationTimeout(0)
@@ -50,7 +49,7 @@ let DetailProductsUrls: any[] = []
         for (let url of urls) {
             const { path, selector, shop } = url
 
-            console.log(`Scraping from ${shop}: ${path}`)
+            logger.info(`Scraping from ${shop}: ${path}`)
 
             await page.goto(path, { waitUntil: 'networkidle2' })
 
@@ -58,7 +57,7 @@ let DetailProductsUrls: any[] = []
                 width: 1560,
                 height: 1000,
             })
-            await page.waitForSelector(selector, { timeout: 2000 })
+            await page.waitForSelector(selector, { timeout: 3000 })
 
             const results: string[] = await page.evaluate((selector) => {
                 let productsUrls: any[] = []
@@ -68,7 +67,6 @@ let DetailProductsUrls: any[] = []
 
                 htmls.forEach((html: any) => {
                     if (html.href) productsUrls.push(html.href)
-                    console.log(html.href)
                 })
                 return productsUrls
             }, selector)
@@ -81,6 +79,6 @@ let DetailProductsUrls: any[] = []
         }
         await browser.close()
     } catch (error) {
-        console.log(error.message)
+        logger.error(error.message)
     }
 })()

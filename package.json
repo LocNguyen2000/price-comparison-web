@@ -6,6 +6,7 @@
     "scripts": {
         "start": "cd src & ts-node-dev index.ts",
         "crawler": "cd src & cd crawler & ts-node-dev scraper.ts",
+        "worker": "cd src & cd crawler & ts-node-dev worker.ts",
         "format": "npx prettier --write ."
     },
     "author": "",
