@@ -1,10 +1,11 @@
 [
     {
-        "url" : "https://tiki.vn/laptop/c8095",
+        "url": "https://tiki.vn/laptop/c8095",
         "params": {
             "path": "?page=",
             "startPage": 1,
-            "stopPage": 3
+            "stopPage": 3,
+            "endSlash": false
         },
         "selector": "a.product-item[href]",
         "shop": "tiki"
@@ -14,7 +15,8 @@
         "params": {
             "path": "/?page=",
             "startPage": 1,
-            "stopPage": 5
+            "stopPage": 10,
+            "endSlash": false
         },
         "selector": "a[href].item_3x07",
         "shop": "sendo"
@@ -24,20 +26,21 @@
         "params": {
             "path": "?page=",
             "startPage": 1,
-            "stopPage": 10
+            "stopPage": 10,
+            "endSlash": false
         },
         "selector": "div.p-list-container > div.p-item > a[href]",
-        "shop": "anphat" 
+        "shop": "anphat"
     },
     {
-        "url": "https://www.hanoicomputer.vn/laptop",
+        "url": "https://www.hanoicomputer.vn/laptop/",
         "params": {
-            "path": "/",
+            "path": "",
             "startPage": 1,
-            "stopPage": 10
+            "stopPage": 10,
+            "endSlash": true
         },
         "selector": "div.cate-list-prod > div.p-component.item > div.p-img > a[href]",
-        "shop": "hanoicomputer" 
+        "shop": "hanoicomputer"
     }
-
 ]

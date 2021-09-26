@@ -2,12 +2,10 @@
     "compilerOptions": {
         "module": "commonjs",
         "target": "es6",
-        "lib": [
-            "dom"
-        ],
+        "lib": ["dom"],
         "noImplicitAny": true,
         "moduleResolution": "node",
-        "resolveJsonModule": true ,
+        "resolveJsonModule": true,
         "sourceMap": true,
         "outDir": "dist",
         "esModuleInterop": true,

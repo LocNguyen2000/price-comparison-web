@@ -10,7 +10,7 @@ const esType = '_doc'
 export class SearchService {
     static index(products: ProductsDto[]) {
         // console.log(product);
-        products.map(( product: ProductsDto) => {
+        products.map((product: ProductsDto) => {
             client.index(
                 {
                     index: esIndex,
@@ -27,7 +27,6 @@ export class SearchService {
                 }
             )
         })
-        
     }
     static get(productId: string) {
         client.get(
@@ -40,7 +39,7 @@ export class SearchService {
                 if (err) {
                     throw err
                 } else {
-                    console.log(res._source);
+                    console.log(res._source)
                 }
             }
         )

@@ -1,0 +1,22 @@
+[
+    {
+        "url": "https://tiki.vn/",
+        "selector": "a.product-item[href]",
+        "shop": "tiki"
+    },
+    {
+        "url": "https://www.sendo.vn/",
+        "selector": "a[href].item_3x07",
+        "shop": "sendo"
+    },
+    {
+        "url": "https://www.anphatpc.com.vn/",
+        "selector": "div.p-list-container > div.p-item > a[href]",
+        "shop": "anphat"
+    },
+    {
+        "url": "https://www.hanoicomputer.vn/",
+        "selector": "div.cate-list-prod > div.p-component.item > div.p-img > a[href]",
+        "shop": "hanoicomputer"
+    }
+]
