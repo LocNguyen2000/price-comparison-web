@@ -1,7 +1,7 @@
 // won't be using this
 
 import * as es from 'elasticsearch'
-import { ProductsDto } from '../crawler/dto/ProductsDto'
+import { ProductsDto } from '../crawler/dto/productsDto'
 
 const client = new es.Client({ host: 'localhost:9200' })
 const esIndex = 'index_laptop'
