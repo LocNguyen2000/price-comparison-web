@@ -6,9 +6,13 @@
             "startPage": 1,
             "stopPage": 2,
             "endSlash": false
+        },        
+        "strategy": {
+            "productsList": "a.product-item[href]",
+            "productsDetail": ""
         },
-        "selector": "a.product-item[href]",
-        "shop": "tiki"
+        "shop": "tiki",
+        "origin": "https://tiki.vn/"
     },
     {
         "url": "https://www.sendo.vn/laptop",
@@ -18,8 +22,12 @@
             "stopPage": 10,
             "endSlash": false
         },
-        "selector": "a[href].item_3x07",
-        "shop": "sendo"
+        "strategy": {
+            "productsList": "a[href].item_3x07",
+            "productsDetail": ""
+        },
+        "shop": "sendo",
+        "origin": "https://www.sendo.vn/"
     },
     {
         "url": "https://www.anphatpc.com.vn/may-tinh-xach-tay-laptop.html",
@@ -29,8 +37,13 @@
             "stopPage": 10,
             "endSlash": false
         },
-        "selector": "div.p-list-container > div.p-item > a[href]",
-        "shop": "anphat"
+        "strategy": {
+            "productsList": "div.p-list-container > div.p-item > a[href]",
+            "productsDetail": ""
+        },
+        "shop": "anphat",
+        "origin": "https://www.anphatpc.com.vn/"
+
     },
     {
         "url": "https://www.hanoicomputer.vn/laptop/",
@@ -40,7 +53,11 @@
             "stopPage": 10,
             "endSlash": true
         },
-        "selector": "div.cate-list-prod > div.p-component.item > div.p-img > a[href]",
-        "shop": "hanoicomputer"
+        "strategy": {
+            "productsList": "div.cate-list-prod > div.p-component.item > div.p-img > a[href]",
+            "productsDetail": ""
+        },
+        "shop": "hanoicomputer",
+        "origin": "https://www.hanoicomputer.vn/"
     }
 ]

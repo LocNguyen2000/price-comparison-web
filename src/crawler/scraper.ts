@@ -3,19 +3,20 @@
 import puppeteer from 'puppeteer'
 
 import { logger } from '../info/logger'
-import datas from './data/links.json'
-import { CrawlDetailDto } from './dto/crawlDetailDto'
+import infos from './data/info.json'
+import { CrawlDetailDto, CrawlerInfo } from './dto/crawler.dto'
 import { saveFile } from './utils/index'
 
-let urls: CrawlDetailDto[] = []
-let DetailProductsUrls: any[] = []
+const generateURLs = (datas: CrawlerInfo[]) => {
+    let urls: CrawlDetailDto[] = []
 
-;(async () => {
     logger.info('Getting Shop URLs')
 
     for (let data of datas) {
-        const { selector, shop } = data
+        const { shop } = data
         const { startPage, stopPage, path, endSlash } = data.params
+        const { productsList } = data.strategy
+
         let i = startPage
         while (i <= stopPage) {
             let pathWithParam = data.url + path + i
@@ -26,15 +27,21 @@ let DetailProductsUrls: any[] = []
             i++
             let url: CrawlDetailDto = {
                 path: pathWithParam,
+                selector: productsList,
                 shop,
-                selector,
             }
             urls.push(url)
         }
     }
-})()
+    return urls
+}
+
+let URLs = generateURLs(infos as CrawlerInfo[])
+
 ;(async () => {
-    logger.info('-----------')
+    let DetailProductsUrls: string[] = []
+
+    logger.info( '-----------') 
     logger.info('Getting Detail Products URLs')
 
     try {
@@ -46,7 +53,7 @@ let DetailProductsUrls: any[] = []
         await page.setUserAgent(
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36'
         )
-        for (let url of urls) {
+        for (let url of URLs) {
             const { path, selector, shop } = url
 
             logger.info(`Scraping from ${shop}: ${path}`)
@@ -81,4 +88,4 @@ let DetailProductsUrls: any[] = []
     } catch (error) {
         logger.error(error.message)
     }
-})()
+})();

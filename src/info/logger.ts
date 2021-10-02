@@ -1,24 +1,15 @@
-class Logger {
-    message: string
-    date: Date
-    constructor() {
-        this.message = ''
-    }
-    info(msg: string | string[]) {
-        this.date = new Date()
-        if (typeof msg === 'string') {
-            console.log(`[INFO] [${this.date.toLocaleTimeString()}]: ${msg}`)
-        } else {
-            msg.map((str: string) => {
-                console.log(
-                    `[INFO] [${this.date.toLocaleTimeString()}]: ${msg}`
-                )
-            })
-        }
-    }
-    error(msg: string) {
-        this.date = new Date()
-        console.log(`[ERROR] [${this.date.toLocaleTimeString()}]: ${msg}`)
-    }
-}
-export const logger = new Logger()
+import winston from 'winston'
+import moment from 'moment'
+
+const logFormat = winston.format.printf((info) => {
+  return `[${info.level}] [${moment().format('LTS')}]: ${JSON.stringify(info.message, null, 4)}`
+});
+
+export const logger = winston.createLogger({
+  transports: [
+    new winston.transports.Console({
+      level: 'info',
+      format: winston.format.combine(winston.format.colorize(), logFormat)
+    })
+  ]
+});

@@ -1,6 +1,5 @@
 import fs from 'fs'
 
-import details from '../data/details.json'
 import { logger } from '../../info/logger'
 
 export async function saveFile(data: string[], filename: string) {
@@ -14,19 +13,10 @@ export async function saveFile(data: string[], filename: string) {
             logger.info(`[saveFile] Data length: ${data.length}`)
             logger.info(`[saveFile] Save file ${filename} success`)
         } catch (error: any) {
-            logger.error(error.message)
+            logger.error(`[saveFile] ${error.message}`)
             throw `[saveFile] ${error.message}`
         }
     } else {
         logger.info('[saveFile] Data empty')
     }
-}
-export function identifyShop(url: string) {
-    for (let content of details) {
-        const prefix: string = content.url
-        if (url.startsWith(prefix)) {
-            return content.shop
-        }
-    }
-    return ''
 }
