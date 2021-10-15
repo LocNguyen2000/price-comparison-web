@@ -4,9 +4,10 @@
     "description": "Compare price application using SocketIO",
     "main": "index.js",
     "scripts": {
-        "start": "cd src & ts-node-dev index.ts",
-        "scraper": "cd src & cd crawler & ts-node-dev scraper.ts",
-        "worker": "cd src & cd crawler & ts-node-dev worker.ts",
+        "start:dev": "cd src & ts-node-dev index.ts",
+        "scraper": "cd src/crawler & ts-node-dev scraper.ts",
+        "worker": "cd src/crawler & ts-node-dev worker.ts",
+        "recorder": "cd src/crawler & ts-node-dev recorder.ts",
         "format": "npx prettier --write ."
     },
     "author": "",
@@ -24,6 +25,7 @@
         "winston": "^3.3.3"
     },
     "dependencies": {
+        "@puppeteer/recorder": "0.0.4",
         "body-parser": "^1.19.0",
         "elasticsearch": "^16.7.2",
         "express": "^4.17.1",
