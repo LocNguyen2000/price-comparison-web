@@ -4,20 +4,20 @@ export interface CrawlDetailDto {
     selector: string
 }
 
-export interface CrawlerInfo{
+export interface CrawlerInfo {
     url: string
     params: CrawlPageParams
     strategy: CrawlStrategy
     shop: string
     origin: string
 }
-interface CrawlPageParams{
+interface CrawlPageParams {
     path: string
-    startPage: number       
+    startPage: number
     stopPage: number
     endSlash: boolean
 }
-interface CrawlStrategy{
+interface CrawlStrategy {
     productsList: string
     productsDetail: string
 }

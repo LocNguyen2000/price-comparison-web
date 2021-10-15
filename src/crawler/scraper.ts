@@ -1,16 +1,18 @@
 // Scraper is used to crawl list of products in each shop
 
+// TODO: define scraper table for DB crawler
+
 import puppeteer from 'puppeteer'
 
-import { logger } from '../info/logger'
+import { logger } from '../utils/logger'
+import { saveFile } from '../utils/index'
 import infos from './data/info.json'
 import { CrawlDetailDto, CrawlerInfo } from './dto/crawler.dto'
-import { saveFile } from './utils/index'
 
 const generateURLs = (datas: CrawlerInfo[]) => {
     let urls: CrawlDetailDto[] = []
 
-    logger.info('Getting Shop URLs')
+    logger.info('[Scraper] Getting Shop URLs')
 
     for (let data of datas) {
         const { shop } = data
@@ -36,13 +38,12 @@ const generateURLs = (datas: CrawlerInfo[]) => {
     return urls
 }
 
-let URLs = generateURLs(infos as CrawlerInfo[])
-
-;(async () => {
+export const scraper = async () => {
+    let URLs = generateURLs(infos as CrawlerInfo[])
     let DetailProductsUrls: string[] = []
 
-    logger.info( '-----------') 
-    logger.info('Getting Detail Products URLs')
+    logger.info('-----------')
+    logger.info('[scraper] Getting Detail Products URLs')
 
     try {
         const browser = await puppeteer.launch({ headless: true })
@@ -56,7 +57,7 @@ let URLs = generateURLs(infos as CrawlerInfo[])
         for (let url of URLs) {
             const { path, selector, shop } = url
 
-            logger.info(`Scraping from ${shop}: ${path}`)
+            logger.info(`[scraper] Scraping from ${shop}: ${path}`)
 
             await page.goto(path, { waitUntil: 'networkidle2' })
 
@@ -82,10 +83,10 @@ let URLs = generateURLs(infos as CrawlerInfo[])
                 DetailProductsUrls.push(url)
             })
 
-            await saveFile(DetailProductsUrls, 'detailUrl.json')
+            await saveFile(DetailProductsUrls, 'detail_urls.json')
         }
         await browser.close()
     } catch (error) {
         logger.error(error.message)
     }
-})();
+}

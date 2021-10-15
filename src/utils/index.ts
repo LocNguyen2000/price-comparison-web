@@ -1,6 +1,6 @@
 import fs from 'fs'
 
-import { logger } from '../../info/logger'
+import { logger } from './logger'
 
 export async function saveFile(data: string[], filename: string) {
     if (data.length != 0) {

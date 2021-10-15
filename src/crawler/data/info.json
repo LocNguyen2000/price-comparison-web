@@ -6,7 +6,7 @@
             "startPage": 1,
             "stopPage": 2,
             "endSlash": false
-        },        
+        },
         "strategy": {
             "productsList": "a.product-item[href]",
             "productsDetail": ""
@@ -43,7 +43,6 @@
         },
         "shop": "anphat",
         "origin": "https://www.anphatpc.com.vn/"
-
     },
     {
         "url": "https://www.hanoicomputer.vn/laptop/",

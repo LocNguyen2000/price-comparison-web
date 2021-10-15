@@ -1,4 +1,7 @@
 // Worker is used to crawl each products detail info
+// get assigned field & selectors from Recorder
+
+// TODO: define worker table for DB crawler
 
 // import puppeteer from 'puppeteer'
 
@@ -21,4 +24,3 @@
 //         console.log(error.message);
 //     }
 // })()
-
