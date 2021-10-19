@@ -6,7 +6,7 @@
 import puppeteer from 'puppeteer'
 
 import { logger } from '../utils/logger'
-import { saveFile } from '../utils/index'
+import { saveFile } from '../utils'
 
 declare global {
     interface Window {
@@ -17,7 +17,7 @@ declare global {
 // await page.exposeFunction('generateSelector', (context) => {
 // })
 
-export const recorder = async () => {
+export const recorder = async (url: string) => {
     let selectorsData = []
 
     try {
@@ -38,43 +38,40 @@ export const recorder = async () => {
         // Hook document with capturing event listeners that capture selectors
         await page.evaluateOnNewDocument(() => {
             function generateSelector(context) {
-                let pathSelector
+                let pathSelector = []
                 if (context == 'null') throw 'not an dom reference'
                 while (context.tagName) {
                     // selector path
                     const className = context.className
                     const idName = context.id
-                    pathSelector =
-                        context.localName +
-                        (className ? `.${className}` : '') +
-                        (idName ? `#${idName}` : '') +
-                        (pathSelector ? '>' + pathSelector : '')
+                    const tagName = context.tagName
+
+                    if (tagName === 'BODY') pathSelector.push('body')
+                    else {
+                        pathSelector.push(
+                            tagName.toLowerCase() +
+                            (className ? `.${className}` : '') +
+                            (idName ? `#${idName}` : '')
+                        )
+                    }
                     context = context.parentNode
                 }
-                return pathSelector
+                if (pathSelector.length > 3) {
+                    pathSelector = pathSelector.slice(0, 3)
+                }
+                pathSelector.reverse()
+                let result = pathSelector.join('>')
+                return result
             }
             // load document
             document.addEventListener('DOMContentLoaded', () => {
-                // let delay = 1000
-                // let timer
-                // hover on element for 3s to generate selectors
-                // document.body.addEventListener("mouseover", (e) => {
-                //    timer = setInterval(() => {
-                //       output = generateSelector(e.target);
-                //       selectors.push({ "selector": output })
-                //       reportEvent({ "selector": output });
-                //    }, delay)
-                // });
-                // document.body.addEventListener("mouseout", (e) => {
-                //    clearInterval(timer)
-                // })
                 document.body.addEventListener('click', (e) => {
                     let output = generateSelector(e.target)
-                    window.reportEvent({ selector: output })
+                    window.reportEvent(output)
                 })
             })
         })
-        await page.goto('https://en.wikipedia.org/wiki/Puppeteer')
+        await page.goto(url)
         await page
             .waitForNavigation()
             .then(async () => {

@@ -5,7 +5,7 @@
 import puppeteer from 'puppeteer'
 
 import { logger } from '../utils/logger'
-import { saveFile } from '../utils/index'
+import { saveFile } from '../utils'
 import infos from './data/info.json'
 import { CrawlDetailDto, CrawlerInfo } from './dto/crawler.dto'
 

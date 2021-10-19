@@ -10,13 +10,27 @@ export async function saveFile(data: string[], filename: string) {
 
             await fs.promises.writeFile(outputPath, output, 'utf-8')
 
-            logger.info(`[saveFile] Data length: ${data.length}`)
-            logger.info(`[saveFile] Save file ${filename} success`)
+            logger.info(`[utils] save: ${data.length} data`)
         } catch (error: any) {
-            logger.error(`[saveFile] ${error.message}`)
-            throw `[saveFile] ${error.message}`
+            const msg = `[utils] save: ${error.message}`
+            logger.error(msg)
+            throw msg
         }
     } else {
-        logger.info('[saveFile] Data empty')
+        logger.info('[utils] save: empty')
+    }
+}
+
+export function getData(dir: string) {
+    try {
+        let result: string[]
+        let data = fs.readFileSync(dir, {encoding: 'utf-8'});
+        result = JSON.parse(data)
+        logger.info(`[utils] get: ${result}`)
+        return result;   
+    } catch (error) {
+        const msg = `[utils] get: error ${error.message}`
+        logger.error(msg)
+        throw msg
     }
 }
