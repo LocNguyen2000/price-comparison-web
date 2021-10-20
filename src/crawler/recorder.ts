@@ -6,7 +6,7 @@
 import puppeteer from 'puppeteer'
 
 import { logger } from '../utils/logger'
-import { saveFile } from '../utils'
+import { saveFile } from '../utils/helper'
 
 declare global {
     interface Window {

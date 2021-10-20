@@ -2,6 +2,6 @@
 
 **/output/**
 
-**/*.log
+.env
 
-package-lock.json
+**/*.log
