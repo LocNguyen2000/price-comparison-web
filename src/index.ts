@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 
-import crawlerRoute from './route/crawler'
+import crawlerRoute from './route/crawler.route'
 
 const port = 4000 || process.env.PORT
 const app = express()

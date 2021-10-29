@@ -1,36 +1,29 @@
 // Scraper is used to crawl list of products in each shop
 
-// TODO: define scraper table for DB crawler
-
 import puppeteer from 'puppeteer'
 
 import { logger } from '../utils/logger'
 import { saveFile } from '../utils/helper'
-import infos from './data/info.json'
-import { CrawlDetailDto, CrawlerInfo } from './dto/crawler.dto'
+import { CrawlDetailDto, CrawlerBaseInfo } from './dto/scraper.dto'
 
-const generateURLs = (datas: CrawlerInfo[]) => {
+const generateURLs = (datas: CrawlerBaseInfo[]) => {
     let urls: CrawlDetailDto[] = []
 
-    logger.info('[Scraper] Getting Shop URLs')
+    logger.info('[scraper] generating URLs from base')
 
     for (let data of datas) {
-        const { shop } = data
-        const { startPage, stopPage, path, endSlash } = data.params
-        const { productsList } = data.strategy
+        const { startPage, endPage, pathPrefix, pathSuffix } = data
+        const { linkSelector } = data.selector
 
         let i = startPage
-        while (i <= stopPage) {
-            let pathWithParam = data.url + path + i
+        while (i <= endPage) {
+            let pathWithParam = data.baseUrl + pathPrefix + i + pathSuffix
 
-            if (endSlash) pathWithParam += '/'
-
-            logger.info(pathWithParam)
+            logger.info(`[scraper] ${pathWithParam}`)
             i++
             let url: CrawlDetailDto = {
                 path: pathWithParam,
-                selector: productsList,
-                shop,
+                selector: linkSelector,
             }
             urls.push(url)
         }
@@ -38,8 +31,8 @@ const generateURLs = (datas: CrawlerInfo[]) => {
     return urls
 }
 
-export const scraper = async () => {
-    let URLs = generateURLs(infos as CrawlerInfo[])
+export const scrapeUris = async (infos: CrawlerBaseInfo[]) => {
+    let URLs = generateURLs(infos)
     let DetailProductsUrls: string[] = []
 
     logger.info('-----------')
@@ -55,9 +48,9 @@ export const scraper = async () => {
             'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36'
         )
         for (let url of URLs) {
-            const { path, selector, shop } = url
+            const { path, selector } = url
 
-            logger.info(`[scraper] Scraping from ${shop}: ${path}`)
+            logger.info(`[scraper] Scraping at: ${path}`)
 
             await page.goto(path, { waitUntil: 'networkidle2' })
 
@@ -88,5 +81,6 @@ export const scraper = async () => {
         await browser.close()
     } catch (error) {
         logger.error(error.message)
+        throw error.message
     }
 }

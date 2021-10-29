@@ -1,8 +1,5 @@
 // Recorder: Used to get selectors from e-commerce website & assign field name of selectors
 
-// TODO: recorder from many urls
-// TODO: define table recorder for DB crawler
-
 import puppeteer from 'puppeteer'
 
 import { logger } from '../utils/logger'
@@ -14,12 +11,9 @@ declare global {
     }
 }
 
-// await page.exposeFunction('generateSelector', (context) => {
-// })
-
 export const recorder = async (url: string) => {
+    logger.info(`[recorder] ${url}`)
     let selectorsData = []
-
     try {
         const browser = await puppeteer.launch({ headless: false })
 
@@ -56,8 +50,8 @@ export const recorder = async (url: string) => {
                     }
                     context = context.parentNode
                 }
-                if (pathSelector.length > 3) {
-                    pathSelector = pathSelector.slice(0, 3)
+                if (pathSelector.length > 2) {
+                    pathSelector = pathSelector.slice(0, 2)
                 }
                 pathSelector.reverse()
                 let result = pathSelector.join('>')
@@ -81,7 +75,8 @@ export const recorder = async (url: string) => {
                 logger.info('[recorder] Navigation done')
             })
     } catch (error) {
-        logger.error(error)
+        logger.error(error.message)
+        throw error.message
     } finally {
         await saveFile(selectorsData, 'selectors.json')
     }
